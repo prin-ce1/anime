@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapScroll - Vertical Scrolling</title>
+    <link rel="stylesheet" href="snap3.css">
+
+</head>
+<body>
+    <div class="snap-container" id="snapContainer">
+        <section class="section section-1" id="section-1">
+            <h2>NARUTO UZUMAKI</h2>
+                <p>The knucklehead ninja who would become Hokage against all odds. Born with the Nine-Tails sealed within him, Naruto overcame loneliness and hardship to become the hero of the Hidden Leaf Village.</p>
+            <a href="#section-2" class="btn">Scroll Down</a>
+        </section>
+
+        <section class="section section-2" id="section-2">
+            <h2>TEAM 7</h2>
+                <p>The legendary team formed under Kakashi Hatake, consisting of Naruto Uzumaki, Sasuke Uchiha, and Sakura Haruno. Their bond would shape the future of the ninja world.</p>
+                <div class="team-container">
+                    <div class="character-card">
+                        <img src="narutocard1.jpg" alt="Naruto"  class="character-img" data-name="Naruto Uzumaki">
+                        <h3>Naruto</h3>
+                        <p>Wind Style · Shadow Clones · Nine-Tails Chakra</p>
+                    </div>
+                    <div class="character-card">
+                        <img src="saskuecard.jpg" alt="Sasuke"  class="character-img" data-name="Sasuke Uchiha">
+                        <h3>Sasuke</h3>
+                        <p>Sharingan · Fire Style · Chidori</p>
+                    </div>
+                    <div class="character-card">
+                        <img src="sakura card.jpg" alt="Sakura"   class="character-img" data-name="sakura Haruno">
+                        <h3>Sakura</h3>
+                        <p>Medical Ninjutsu · Super Strength · Genjutsu</p>
+                    </div>
+                </div>
+            <a href="#section-3" class="btn">Continue</a>
+        </section>
+
+        <section class="section section-3" id="section-3">
+           <h3>JUTSU & BATTLES</h3>
+                <p>The Naruto universe features incredible ninja techniques and epic battles that have captivated fans worldwide.</p>
+                <div class="team-container">
+                    <div class="character-card">
+                          <img src="Rasengan.jpg" alt="Rasengan"  class="jutsu-img" data-name="Rasengan" >
+                        <h4>Rasengan</h4>
+                        <p>Rasengan is a pure form of chakra ,
+                        Creator of Rasengan is Minato Namikazi,
+                        Naruto's signature technique, a spinning sphere of chakra</p>
+                    </div>
+                    <div class="character-card">
+                        <img src="Chidori.jpg" alt="Chidori" class="jutsu-img"  data-name="Chidori" >
+                        <h4>Chidori</h4>
+                        <p>Chidori is a lightning style injustu
+                       Creator of Chidori is Kakashi Hatake,
+                        Sasuke's lightning blade that pierces through anything</p>
+                    </div>
+                    <div class="character-card">
+                        <img src="MultiShadow Clone.jpg" alt="MultiShadow"  class="jutsu-img" data-name="MultiShadow Clone" >
+                        <h4> MultiShadow Clone</h4>
+                        <p>Creator of MultiShadow Clone is second Hokage Tobirama Sangu,
+                        The forbidden technique Naruto mastered perfectly</p>
+                    </div>
+                </div>
+            <a href="#section-4" class="btn">Next Section</a>
+        </section>
+
+        <section class="section section-4" id="section-4">
+           <h2>NINJA WAY</h2>
+                <p>"I'm not gonna run away, I never go back on my word! That's my nindo: my ninja way!"  these word of- Naruto Uzumaki</p>
+                <p>The story teaches us about perseverance, friendship, and never giving up on our dreams,one day every one mind willbe change for you and villan become a hero of entire world</p>
+            <a href="#section-1" class="btn">Back to Top</a>
+        </section>
+    </div>
+     <div class="popup-overlay" id="popupOverlay">
+        <span class="close-btn" id="closePopup">&times</span> 
+        <div class="popup-content">
+          <img class="popup-img" id="popupImg" src="" alt="Enlarged view">
+        
+l            <div class="popup-title" id="popupTitle"></div>
+        </div>
+     </div>
+    
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-dot active" data-section="section-1"></div>
+        <div class="scroll-dot active2 " data-section="section-2"></div>
+        <div class="scroll-dot active3" data-section="section-3"></div>
+        <div class="scroll-dot active4" data-section="section-4"></div>
+    </div>
+    <script>
+      // Image popup functionality
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const characterImgs = document.querySelectorAll('.character-img, .jutsu-img');
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popupImg = document.getElementById('popupImg');
+            const popupTitle = document.getElementById('popupTitle');
+            const closePopup = document.getElementById('closePopup');
+            
+            // Open popup when clicking on an image
+            characterImgs.forEach(img => {
+                img.addEventListener('click', function() {
+                    popupImg.src = this.src;
+                    popupTitle.textContent = this.getAttribute('data-name');
+                    popupOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close popup
+            closePopup.addEventListener('click', function() {
+                popupOverplay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Close popup when clicking outside the image
+            popupOverlay.addEventListener('click', function(e) {
+                if (e.target === popupOverlay) {
+                    popupOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+                    // Scroll indicator functionality
+            const scrollContainer = document.getElementById('snapContainer');
+            const scrollDots = document.querySelectorAll('.scroll-dot');
+            
+            scrollContainer.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.section');
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollContainer.scrollTop >= sectionTop - sectionHeight * 0.25) {
+                        currentSection = section.id;
+                    }
+                });
+                
+                scrollDots.forEach(dot => {
+                    dot.classList.remove('active', 'active2', 'active3','active4');
+                    if (dot.getAttribute('data-section') === currentSection) {
+                        if (currentSection === 'section-1') {
+                            dot.classList.add('active');
+                        } else if (currentSection === 'section-2') {
+                            dot.classList.add('active2');
+                        } else if (currentSection === 'section-3') {
+                            dot.classList.add('active3');
+                       }
+                     else if(currentSection === 'section-4'){
+                        dot.classList.add(' active4');
+                    }
+                 }
+              });
+            });
+            
+            // Click on scroll dots to navigate
+            scrollDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const targetSection = document.getElementById(this.getAttribute('data-section'));
+                    scrollContainer.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
